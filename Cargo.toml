@@ -6,8 +6,11 @@ description = "Rust port of datasketch.MinHash's core algorithm: batch MinHash s
 license = "MIT"
 repository = "https://github.com/domvwt/minhash-rs"
 
+# maturin's `module-name = "minhash_rs._native"` in pyproject.toml renames
+# the produced cdylib to `_native.abi3.so` regardless of the lib name here,
+# but we match it explicitly to avoid confusing anyone reading Cargo output.
 [lib]
-name = "minhash_rs"
+name = "_native"
 crate-type = ["cdylib"]
 
 [profile.release]

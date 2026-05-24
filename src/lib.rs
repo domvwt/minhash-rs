@@ -1,3 +1,9 @@
+// PyO3's #[pyfunction] proc-macro emits an .into() on the return value
+// that clippy flags as useless when the function already returns
+// PyResult<...>. The warning fires on the macro-expanded span, so a
+// crate-level allow is the only placement that reliably suppresses it.
+#![allow(clippy::useless_conversion)]
+
 //! Rust port of `datasketch.MinHash`'s core algorithm: batch MinHash
 //! signatures with optional rayon parallelism.
 //!
@@ -6,11 +12,11 @@
 //! `datasketch.MinHash` defines its hashvalues as `min_i(perm_i(h(x)))`
 //! where:
 //! - `h(x) = struct.unpack('<I', sha1(x).digest()[:4])[0]`
-//!     (SHA1 truncated to the first 4 bytes, **little-endian** -> u32)
+//!   (SHA1 truncated to the first 4 bytes, **little-endian** -> u32)
 //! - `perm_i(h) = ((a_i * h + b_i) % MERSENNE_PRIME) & MAX_HASH`
-//!     where `MERSENNE_PRIME = 2^61 - 1` and `MAX_HASH = 2^32 - 1`
+//!   where `MERSENNE_PRIME = 2^61 - 1` and `MAX_HASH = 2^32 - 1`
 //! - `(a_i, b_i)` come from `numpy.random.RandomState(seed)` randint
-//!     draws over `[1, MERSENNE_PRIME)` and `[0, MERSENNE_PRIME)`.
+//!   draws over `[1, MERSENNE_PRIME)` and `[0, MERSENNE_PRIME)`.
 //!
 //! The caller passes the `(2, num_perm)` permutation matrix as a numpy
 //! array (see `minhash_rs.default_permutations`). Rust owns the hot
@@ -112,7 +118,10 @@ fn run_pooled<F: FnOnce() + Send>(num_threads: Option<usize>, f: F) -> PyResult<
 
 /// Validate and split a `(2, num_perm)` permutation matrix into two
 /// owned `Vec<u64>` slices (a and b coefficients).
-fn split_permutations(perms: &PyReadonlyArray2<u64>, num_perm: usize) -> PyResult<(Vec<u64>, Vec<u64>)> {
+fn split_permutations(
+    perms: &PyReadonlyArray2<u64>,
+    num_perm: usize,
+) -> PyResult<(Vec<u64>, Vec<u64>)> {
     let arr = perms.as_array();
     if arr.shape() != [2, num_perm] {
         return Err(PyValueError::new_err(format!(
@@ -220,7 +229,7 @@ fn minhash_batch_from_text<'py>(
     if sizes.is_empty() {
         return Err(PyValueError::new_err("ngram_sizes must be non-empty"));
     }
-    if sizes.iter().any(|&k| k == 0) {
+    if sizes.contains(&0) {
         return Err(PyValueError::new_err("ngram_sizes entries must be >= 1"));
     }
 

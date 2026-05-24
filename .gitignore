@@ -7,3 +7,7 @@ __pycache__/
 .venv/
 *.egg-info/
 .pytest_cache/
+
+# uv.lock is meaningful for Python applications but not for a maturin wheel
+# project — runtime deps live in pyproject.toml, build deps come via PEP 517.
+uv.lock
