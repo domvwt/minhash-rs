@@ -1,0 +1,24 @@
+[package]
+name = "minhash_rs"
+version = "0.1.0"
+edition = "2021"
+description = "Rust port of datasketch.MinHash's core algorithm: batch MinHash signatures with optional rayon parallelism."
+license = "MIT"
+repository = "https://github.com/domvwt/minhash-rs"
+
+[lib]
+name = "minhash_rs"
+crate-type = ["cdylib"]
+
+[profile.release]
+lto = true
+strip = true
+codegen-units = 1
+
+[dependencies]
+# PyO3 0.22 lines up with the numpy crate's 0.22 release (numpy >= 1.26 at the
+# Python side, including the 2.x ABI).
+pyo3 = { version = "0.22", features = ["extension-module", "abi3-py312"] }
+numpy = "0.22"
+sha1 = "0.10"
+rayon = "1"

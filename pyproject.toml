@@ -1,0 +1,41 @@
+[build-system]
+requires = ["maturin>=1.4,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "minhash-rs"
+version = "0.1.0"
+description = "Rust port of datasketch.MinHash's core algorithm: batch MinHash signatures with optional rayon parallelism."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.12"
+authors = [
+    { name = "Dominic Thorn", email = "dominic.thorn@gmail.com" },
+]
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "numpy>=1.26",
+]
+
+[project.urls]
+Homepage = "https://github.com/domvwt/minhash-rs"
+Repository = "https://github.com/domvwt/minhash-rs"
+Issues = "https://github.com/domvwt/minhash-rs/issues"
+
+[project.optional-dependencies]
+test = [
+    "datasketch>=1.6.5",
+]
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+module-name = "minhash_rs._native"
+python-source = "python"
