@@ -10,13 +10,21 @@ Rust port of [`datasketch.MinHash`](https://github.com/ekzhu/datasketch)'s core 
 
 ## Install
 
+Prebuilt wheels for Linux (x86_64, aarch64) and macOS (x86_64, arm64) are attached to each [GitHub Release](https://github.com/domvwt/minhash-rs/releases). Pip can install directly from a release URL:
+
 ```bash
-pip install minhash-rs       # once published to PyPI
-# or, in the meantime:
+pip install minhash-rs --find-links https://github.com/domvwt/minhash-rs/releases/expanded_assets/v0.1.0
+```
+
+Or build from source (requires a Rust toolchain — `rustc` + `maturin`):
+
+```bash
 pip install git+https://github.com/domvwt/minhash-rs@v0.1.0
 ```
 
-Requires Python ≥ 3.12. Wheels include the compiled `.so` (no Rust toolchain needed at install time once PyPI wheels are up; building from source requires `rustc` and `maturin`).
+PyPI publishing is pending account recovery; once available, `pip install minhash-rs` will work directly.
+
+Requires Python ≥ 3.12. Windows wheels are not currently built — Windows users can install from source via the `git+https://...` command above.
 
 ## API
 
