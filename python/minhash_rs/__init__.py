@@ -9,11 +9,26 @@ matching ``datasketch.MinHash(num_perm, seed).permutations``.
 
 from __future__ import annotations
 
+from importlib.metadata import PackageNotFoundError, version as _pkg_version
+
 import numpy as np
 
 from minhash_rs._native import minhash_batch, minhash_batch_from_text
 
-__all__ = ["minhash_batch", "minhash_batch_from_text", "default_permutations"]
+try:
+    __version__ = _pkg_version("minhash-rs")
+except PackageNotFoundError:
+    __version__ = "0.0.0+unknown"
+
+__author__ = "Dominic Thorn"
+
+__all__ = [
+    "__author__",
+    "__version__",
+    "default_permutations",
+    "minhash_batch",
+    "minhash_batch_from_text",
+]
 
 _MERSENNE_PRIME = (1 << 61) - 1
 

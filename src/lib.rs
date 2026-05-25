@@ -272,6 +272,14 @@ fn minhash_batch_from_text<'py>(
 #[pymodule]
 #[pyo3(name = "_native")]
 fn _native(m: &Bound<'_, PyModule>) -> PyResult<()> {
+    m.setattr(
+        "__doc__",
+        "Compiled Rust extension for minhash_rs: batch MinHash signatures \
+         bit-equivalent to datasketch.MinHash, with optional rayon \
+         parallelism. Exposes `minhash_batch` (pre-tokenized n-grams) and \
+         `minhash_batch_from_text` (raw text + n-gram sizes). Prefer \
+         importing from the top-level `minhash_rs` package.",
+    )?;
     m.add_function(wrap_pyfunction!(minhash_batch, m)?)?;
     m.add_function(wrap_pyfunction!(minhash_batch_from_text, m)?)?;
     Ok(())

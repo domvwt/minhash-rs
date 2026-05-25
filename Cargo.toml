@@ -2,6 +2,7 @@
 name = "minhash_rs"
 version = "0.1.0"
 edition = "2021"
+authors = ["Dominic Thorn <dominic.thorn@gmail.com>"]
 description = "Rust port of datasketch.MinHash's core algorithm: batch MinHash signatures with optional rayon parallelism."
 license = "MIT"
 repository = "https://github.com/domvwt/minhash-rs"

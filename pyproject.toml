@@ -21,6 +21,7 @@ classifiers = [
     "Intended Audience :: Developers",
     "Topic :: Scientific/Engineering",
 ]
+keywords = ["minhash", "lsh", "sketching", "similarity", "rust", "datasketch"]
 dependencies = [
     "numpy>=1.26",
 ]
