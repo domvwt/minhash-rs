@@ -39,8 +39,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install maturin numpy datasketch joblib
 
-      - name: Build extension (debug for speed)
-        run: maturin develop
+      - name: Build wheel (debug for speed)
+        run: maturin build --out dist
+
+      - name: Install wheel
+        run: pip install --no-index --find-links dist minhash-rs
 
       - name: Run correctness harness
         run: python tests/correctness.py
